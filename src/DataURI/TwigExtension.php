@@ -9,24 +9,19 @@
 
 namespace DataURI;
 
+use DataURI\Data;
+use DataURI\Dumper;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+
 /**
  * Twig extension for data URI, see README for example of use
  * Converts data to the data URI Url scheme
  *
  * @see https://www.ietf.org/rfc/rfc2397.txt
  */
-class TwigExtension extends \Twig_Extension
+class TwigExtension extends AbstractExtension
 {
-
-    /**
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'data_uri_twig_extension';
-    }
-
     /**
      *
      * @return array
@@ -34,7 +29,7 @@ class TwigExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('dataUri', array($this, 'dataUri'))
+            new TwigFilter('dataUri', array($this, 'dataUri'))
         );
     }
 
@@ -66,7 +61,7 @@ class TwigExtension extends \Twig_Extension
                     trigger_error("Tried to convert an unsupported source format", E_USER_WARNING);
                     break;
             }
-        } catch (Exception\Exception $e) {
+        } catch (\DataURI\Exception\Exception $e) {
 
             trigger_error(sprintf("Error while building DataUri : %s", $e->getMessage()), E_USER_WARNING);
         }
@@ -85,7 +80,7 @@ class TwigExtension extends \Twig_Extension
      * @param boolean       $strict
      * @param string        $mime
      * @param array         $parameters
-     * @return \DataURI\Data
+     * @return Data
      */
     protected function getDataFromResource($source, $strict, $mime, Array $parameters)
     {
@@ -108,7 +103,7 @@ class TwigExtension extends \Twig_Extension
      * @param boolean       $strict
      * @param string        $mime
      * @param array         $parameters
-     * @return \DataURI\Data
+     * @return Data
      */
     protected function getDataFromScalar($source, $strict, $mime, $parameters)
     {
