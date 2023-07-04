@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace DataURI;
+namespace DataURI\Twig;
 
 use DataURI\Data;
 use DataURI\Dumper;

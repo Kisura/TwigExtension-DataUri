@@ -21,8 +21,8 @@
         "symfony/phpunit-bridge": "^3.2"
     },
     "autoload": {
-        "psr-0": {
-            "DataURI": "src"
+        "psr-4": {
+            "DataURI\\Twig\\": "src/DataURI/Twig"
         }
     }
 }
