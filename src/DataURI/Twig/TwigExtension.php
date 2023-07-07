@@ -11,6 +11,7 @@ namespace DataURI\Twig;
 
 use DataURI\Data;
 use DataURI\Dumper;
+use Symfony\Component\Mime\MimeTypes;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -91,6 +92,10 @@ class TwigExtension extends AbstractExtension
             $streamData .= fread($source, 8192);
         }
 
+        if (is_null($mime)) {
+            $mime = $this->guessMimeType($streamData);
+        }
+
         $data =  new Data($streamData, $mime, $parameters, $strict);
         $data->setBinaryData(true);
 
@@ -115,6 +120,18 @@ class TwigExtension extends AbstractExtension
             return Data::buildFromFile($source, $strict);
         }
 
+        if (is_null($mime)) {
+            $mime = $this->guessMimeType($source);
+        }
+
         return new Data($source, $mime, $parameters, $strict);
+    }
+    
+    private function guessMimeType($source) {
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        if ($result = $finfo->buffer($source,FILEINFO_MIME_TYPE)) {
+            return $result;
+        }
+        return null;
     }
 }
