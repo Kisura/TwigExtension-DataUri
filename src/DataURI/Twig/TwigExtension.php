@@ -42,7 +42,7 @@ class TwigExtension extends AbstractExtension
      * @param array     $parameters Extra parameters, see rfc
      * @return null
      */
-    public function dataUri($source, $strict = true, $mime = null, $parameters = array())
+    public function dataUri($source, $strict = false, $mime = null, $parameters = array())
     {
         $data = null;
 
